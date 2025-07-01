@@ -1,0 +1,149 @@
+<!DOCTYPE html>  <html lang="en">  
+<head>  
+  <meta charset="UTF-8">  
+  <title>Creative Quiz Game</title>  
+  <style>  
+    body {  
+      font-family: 'Segoe UI', sans-serif;  
+      background: linear-gradient(to right, #6a11cb, #2575fc);  
+      margin: 0;
+      padding: 20px;  
+      color: #fff;  
+    }  
+    h1 {  
+      text-align: center;  
+      margin-bottom: 30px;  
+    }  
+    .quiz-container {  
+      max-width: 800px;  
+      margin: auto;  
+    }  
+    .question-card {  
+      background: #ffffff10;  
+      padding: 20px;  
+      border-radius: 15px;  
+      margin-bottom: 20px;  
+      backdrop-filter: blur(5px);  
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);  
+    }  
+    .question-card h3 {  
+      margin-bottom: 10px;  
+    }  
+    label {  
+      display: block;  
+      margin: 5px 0;  
+      padding: 5px 10px;  
+      background: #ffffff20;  
+      border-radius: 8px;  
+      cursor: pointer;  
+    }  
+    input[type="radio"] {  
+      margin-right: 10px;  
+    }  
+    .submit-btn {  
+      display: block;  
+      margin: 30px auto;  
+      padding: 12px 30px;  
+      font-size: 18px;  
+      background-color: #00c9a7;  
+      border: none;  
+      border-radius: 10px;  
+      cursor: pointer;  
+      color: white;  
+      font-weight: bold;  
+    }  
+    #score-section {  
+      text-align: center;  
+      font-size: 24px;  
+      margin-top: 30px;  
+      background: #ffffff20;  
+      padding: 20px;  
+      border-radius: 15px;  
+    }  
+    .progress-counter {  
+      text-align: right;  
+      font-size: 14px;  
+      margin-bottom: 10px;  
+      opacity: 0.9;  
+    }  
+  </style>  
+</head>  
+<body>    <h1>🌟 Creative Quiz Challenge</h1>    <div class="quiz-container">  
+    <form id="quizForm"></form>  
+    <div id="score-section"></div>  
+  </div>    <script>
+  const questions = [
+    { q: "What is the main purpose of Web Services?", a: "To allow communication between applications over a network", options: ["To create hardware interfaces", "To allow communication between applications over a network", "To install software remotely"] },
+    { q: "Which language is primarily used for data exchange in Web Services?", a: "XML", options: ["HTML", "JavaScript", "XML"] },
+    { q: "What is a key advantage of using SOA?", a: "Platform independence and reusability", options: ["Tight coupling between components", "No reusability", "Platform independence and reusability"] },
+    { q: "Which of the following best describes a 'thin client'?", a: "Relies on a server for most processing", options: ["Requires powerful local resources", "Processes all logic on the client", "Relies on a server for most processing"] },
+    { q: "Which of these clients is browser-based?", a: "Thin Client", options: ["Thick Client", "Mainframe Terminal", "Thin Client"] },
+    { q: "What does XML stand for?", a: "Extensible Markup Language", options: ["Extra Markup Language", "Extended Module Language", "Extensible Markup Language"] },
+    { q: "What does XML validation ensure?", a: "That the XML follows DTD or schema rules", options: ["That the file opens in all browsers", "That the XML follows DTD or schema rules", "That the XML is written in HTML format"] },
+    { q: "The emergence of Web Services is closely tied to the development of which technology?", a: "Internet and World Wide Web", options: ["LAN", "Ethernet", "Internet and World Wide Web"] },
+    { q: "What is the role of XML in Web Services?", a: "It represents and transports data", options: ["It designs user interfaces", "It secures the system", "It represents and transports data"] },
+    { q: "Which architecture came before distributed architecture in server-side progression?", a: "Mainframe Architecture", options: ["Mainframe Architecture", "Internet Architecture", "Cloud Architecture"] },
+    { q: "What does SOAP stand for?", a: "Simple Object Access Protocol", options: ["Server Object Access Protocol", "Simple Object Access Protocol", "Simple Object Application Protocol"] },
+    { q: "What is SOAP primarily used for?", a: "Structuring web service messages", options: ["Displaying web pages", "Structuring web service messages", "Styling XML documents"] },
+    { q: "In SOAP, which layer is responsible for transporting messages?", a: "Binding", options: ["Binding", "Envelope", "Body"] },
+    { q: "What is the purpose of WSDL in Web Services?", a: "To define how Web Services are described and accessed", options: ["To define how Web Services are described and accessed", "To monitor web traffic", "To secure SOAP messages"] },
+    { q: "Which component of WSDL defines the data types used?", a: "Types", options: ["Message", "Port", "Types"] },
+    { q: "What is UDDI used for?", a: "Service discovery and publication", options: ["User data input", "Web design", "Service discovery and publication"] },
+    { q: "Which of the following is NOT a valid SOAP component?", a: "Loader", options: ["Envelope", "Body", "Loader"] },
+    { q: "What does WSDL stand for?", a: "Web Services Description Language", options: ["Web System Design Language", "Web Software Description Language", "Web Services Description Language"] },
+    { q: "In SOAP modeling, what does the 'Envelope' element define?", a: "The start and end of the SOAP message", options: ["The URL to post the service", "The start and end of the SOAP message", "The client IP"] },
+    { q: "What is the core role of UDDI in Web Services architecture?", a: "Publishing and discovering web services", options: ["Binding the SOAP header", "Describing the service contract", "Publishing and discovering web services"] }
+  ];
+
+  const form = document.getElementById('quizForm');
+
+  questions.forEach((q, i) => {
+    const card = document.createElement('div');
+    card.className = 'question-card';
+
+    const progress = document.createElement('div');
+    progress.className = 'progress-counter';
+    progress.innerHTML = `Question ${i + 1} of ${questions.length}`;
+    card.appendChild(progress);
+
+    const questionTitle = document.createElement('h3');
+    questionTitle.innerText = q.q;
+    card.appendChild(questionTitle);
+
+    q.options.forEach(opt => {
+      const label = document.createElement('label');
+      label.innerHTML = `<input type="radio" name="q${i}" value="${opt}"> ${opt}`;
+      card.appendChild(label);
+    });
+
+    form.appendChild(card);
+  });
+
+  const submitBtn = document.createElement('button');
+  submitBtn.type = 'submit';
+  submitBtn.className = 'submit-btn';
+  submitBtn.textContent = 'Submit Quiz';
+  form.appendChild(submitBtn);
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    let score = 0;
+
+    questions.forEach((q, i) => {
+      const selected = document.querySelector(`input[name="q${i}"]:checked`);
+      if (selected && selected.value === q.a) {
+        score++;
+      }
+    });
+
+    document.getElementById('score-section').innerHTML =
+      `🎉 You scored <strong>${score}</strong> out of <strong>${questions.length}</strong>!`;
+
+    // Optional: send score to server
+    fetch("https://example.com/api/submit-score", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ score: score })
+    }).catch(console.error);
+  });
+</script>
